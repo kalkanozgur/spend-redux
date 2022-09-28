@@ -12,6 +12,7 @@ function App() {
 	return (
 		<>
 			<Header />
+			<div>$100,000,000,000</div>
 			<div className="Products">
 				{products.map((item) => (
 					<ProductCard key={item.id} item={item} />
