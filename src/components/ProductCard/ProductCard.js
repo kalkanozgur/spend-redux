@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 // import "./ProductCard.css";
 
+import { useDispatch } from "react-redux";
+import {
+	addToBasket,
+	removeFromBasket,
+	changeBasket,
+} from "./../../context/Products/ProductsSlice";
+
 export default function ProductCard({ item }) {
+	const [count, setCount] = useState(item.count);
+	const dispatch = useDispatch();
+	const removeBasketHandle = (e) => {
+		dispatch(removeFromBasket({ item }));
+	};
+	const addBasketHandle = () => {
+		dispatch(addToBasket({ item }));
+	};
+	const handleChange = (e) => {
+		e.preventDefault();
+		if (e.target.value > -1) {
+			setCount(Number(e.target.value));
+			dispatch(changeBasket({ item, count: e.target.value }));
+		}
+	};
+	useEffect(() => {
+		setCount(item.count);
+
+		return () => {};
+	}, []);
+
 	return (
 		<div className="bg-[#181A1B] flex flex-col items-center justify-center p-3">
 			<div className="max-w-xs w-72 flex flex-col items-center">
@@ -15,7 +43,7 @@ export default function ProductCard({ item }) {
 			</h3>
 			<div className="w-full flex justify-between">
 				<button
-					// onClick={removeBasketHandle}
+					onClick={removeBasketHandle}
 					disabled={item.count < 1}
 					// className={classNames({
 					// 	// "bg-gradient-to-b from-pink-500 to-red-500 text-white": 1 > 0,
@@ -30,11 +58,11 @@ export default function ProductCard({ item }) {
 					type="text"
 					value={item.count}
 					onKeyPress={(e) => {}}
-					// onChange={handleChange}
+					onChange={handleChange}
 					className="text-center outline-none border border-gray-900 bg-[#3B3B3B] rounded p-2 w-1/3"
 				/>
 				<button
-					// onClick={addBasketHandle}
+					onClick={addBasketHandle}
 					disabled={1000 < item.productPrice}
 					// className={classNames({
 

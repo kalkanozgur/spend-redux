@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import ProductCard from "./components/ProductCard";
 
-import { useSelector } from "react-redux";
-// import {second} from './context/Products/ProductsSlice'
+import { useSelector, useDispatch } from "react-redux";
+import { calcBalance, calcTotal } from "./context/Products/ProductsSlice";
 
 function App() {
+	const dispatch = useDispatch();
 	const products = useSelector((store) => store.products.items);
-	console.log(products);
+	let total = useSelector((store) => store.products.total);
+	const balance = useSelector((store) => store.products.balance);
+
+	total = total - balance;
+	console.log(total);
+	useEffect(() => {
+		return () => {
+			dispatch(calcBalance());
+		};
+	}, [products]);
+
 	return (
 		<>
 			<Header />
-			<div>$100,000,000,000</div>
+			<div>{total} $</div>
 			<div className="Products">
 				{products.map((item) => (
 					<ProductCard key={item.id} item={item} />
