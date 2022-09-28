@@ -1,0 +1,17 @@
+.RemoveButton{
+    background-color: black;
+    color: aliceblue;
+    padding: 0.6vh 2vh;  
+    border: none;
+    border-radius: 1vh; 
+    width: 13vh;
+
+}
+.AddButton{
+    background-color: green;
+    color: aliceblue;
+    padding: 0.6vh 2vh;
+    border: none;
+    border-radius: 1vh;
+    width: 13vh;
+}
