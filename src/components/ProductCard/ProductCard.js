@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import classNames from "classnames";
 // import "./ProductCard.css";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	addToBasket,
 	removeFromBasket,
@@ -11,11 +10,14 @@ import {
 
 export default function ProductCard({ item }) {
 	const [count, setCount] = useState(item.count);
+	let total = useSelector((store) => store.products.total);
 	const dispatch = useDispatch();
 	const removeBasketHandle = (e) => {
+		setCount(count - 1);
 		dispatch(removeFromBasket({ item }));
 	};
 	const addBasketHandle = () => {
+		setCount(count + 1);
 		dispatch(addToBasket({ item }));
 	};
 	const handleChange = (e) => {
@@ -29,7 +31,7 @@ export default function ProductCard({ item }) {
 		setCount(item.count);
 
 		return () => {};
-	}, []);
+	}, [item.count]);
 
 	return (
 		<div className="bg-[#181A1B] flex flex-col items-center justify-center p-3">
@@ -45,32 +47,20 @@ export default function ProductCard({ item }) {
 				<button
 					onClick={removeBasketHandle}
 					disabled={item.count < 1}
-					// className={classNames({
-					// 	// "bg-gradient-to-b from-pink-500 to-red-500 text-white": 1 > 0,
-					// 	// "bg-gray-100 text-black": item.count < 1,
-					// 	// "rounded p-2 font-bold enabled:active:scale-90 transition-transform": true,
-					// })}
 					className="rounded p-2 px-8 bold bg-gray-700"
 				>
 					Sell
 				</button>
 				<input
 					type="text"
-					value={item.count}
+					value={count}
 					onKeyPress={(e) => {}}
 					onChange={handleChange}
 					className="text-center outline-none border border-gray-900 bg-[#3B3B3B] rounded p-2 w-1/3"
 				/>
 				<button
 					onClick={addBasketHandle}
-					disabled={1000 < item.productPrice}
-					// className={classNames({
-
-					// 	// "bg-gradient-to-b from-brand1 to-brand2 text-white":
-					// 	// 	1 + 1 > item.productPrice,
-					// 	// "bg-gray-100 text-black": 1 < item.productPrice,
-					// 	// "rounded p-2 font-bold enabled:active:scale-90 transition-transform": true,
-					// })}
+					disabled={total < item.productPrice}
 					className="rounded p-2 px-8 bold bg-green-700"
 				>
 					Buy

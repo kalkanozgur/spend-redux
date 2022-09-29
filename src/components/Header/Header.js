@@ -1,7 +1,6 @@
 import React from "react";
-// import "./styles.css";
 
-function Header() {
+function Header({ total }) {
 	return (
 		<>
 			<div className="text-center p-5 bg-clip-border bg-[#181A1B] m-5 rounded-md">
